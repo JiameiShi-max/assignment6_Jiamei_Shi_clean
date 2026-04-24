@@ -1,4 +1,3 @@
-import { useEffect, useRef } from "react";
 import * as d3 from "d3";
 
 // --- Q1.1: <Text> component — adds attribute labels and value to each rectangle ---
@@ -13,8 +12,7 @@ function Text({ node, x, y, width, height }) {
     }
     lines.push(`Value: ${node.value}`);
 
-    const fontSize = Math.min(12, width / 7, height / (lines.length * 1.6 + 1));
-    if (fontSize < 6) return null;
+    const fontSize = 12;
 
     return (
         <text
@@ -34,19 +32,20 @@ function Text({ node, x, y, width, height }) {
     );
 }
 
-// Watermark big label shown on large rectangles (like the screenshot)
+// Watermark big label — shows the FIRST-level attribute (e.g. "heart_disease: 0")
 function BigLabel({ node, x, y, width, height }) {
-    if (width < 80 || height < 50) return null;
+    if (width < 150 || height < 80) return null;
+    // Walk to depth=1 (top level group)
     let topNode = node;
     while (topNode.depth > 1) topNode = topNode.parent;
     const label = `${topNode.data.attr}: ${topNode.data.name}`;
-    const fontSize = Math.min(width / label.length * 1.5, height / 3, 30);
+    const fontSize = Math.min(width / label.length * 1.4, height / 4, 32);
     return (
         <text
             x={x + width / 2}
             y={y + height / 2 + fontSize / 3}
             fontSize={fontSize}
-            fill="rgba(255,255,255,0.18)"
+            fill="rgba(0,0,0,0.25)"
             fontFamily="monospace"
             fontWeight="bold"
             textAnchor="middle"
@@ -68,15 +67,13 @@ export function TreeMap(props) {
     const treemapLayout = d3
         .treemap()
         .size([innerWidth, innerHeight])
-        .paddingOuter(4)
-        .paddingInner(2)
-        .round(true);
+        .paddingOuter(2)
+        .paddingInner(2);
 
-    // Build d3 hierarchy and apply layout
+    // Build d3 hierarchy — NO sort, keep original order from getTree
     const root = d3
         .hierarchy(tree)
-        .sum(d => (d.children ? 0 : d.value))
-        .sort((a, b) => b.value - a.value);
+        .sum(d => (d.children ? 0 : d.value));
 
     treemapLayout(root);
 
@@ -85,9 +82,15 @@ export function TreeMap(props) {
     // --- Q1.1: define color map using schemeDark2 ---
     const colorScale = d3.scaleOrdinal(d3.schemeDark2);
 
+    // Color by the SECOND-level attribute (e.g. gender) — matches professor's screenshot
     function getColor(node) {
         let cur = node;
-        while (cur.depth > 1) cur = cur.parent;
+        // Walk to depth=2 if possible (second-level group)
+        while (cur.depth > 2) cur = cur.parent;
+        // If tree only has one level of grouping, fall back to depth 1
+        if (cur.depth < 2) {
+            while (cur.depth > 1) cur = cur.parent;
+        }
         return colorScale(cur.data.name);
     }
 
@@ -118,7 +121,6 @@ export function TreeMap(props) {
                             }
                             style={{ cursor: "pointer" }}
                         >
-                            {/* Rectangle */}
                             <rect
                                 x={x}
                                 y={y}
@@ -129,7 +131,7 @@ export function TreeMap(props) {
                                 strokeWidth={isSelected ? 3 : 1.5}
                                 opacity={selectedCell && !isSelected ? 0.6 : 1}
                             />
-                            {/* Watermark label */}
+                            {/* Watermark label on large cells */}
                             <BigLabel node={leaf} x={x} y={y} width={w} height={h} />
                             {/* --- Q1.1: text with attributes and values --- */}
                             <Text node={leaf} x={x} y={y} width={w} height={h} />
