@@ -56,26 +56,6 @@ function BigLabel({ node, x, y, width, height }) {
     );
 }
 
-// Top-level internal node label strip — only drawn for depth=1 (heart_disease)
-// NOT for depth=2 (gender) — matches the reference screenshot
-function TopInternalLabel({ node, x, y, width }) {
-    if (width < 20) return null;
-    const label = `${node.data.attr}: ${node.data.name}`;
-    const fontSize = 12;
-    return (
-        <text
-            x={x + 4}
-            y={y + fontSize + 3}
-            fontSize={fontSize}
-            fill="white"
-            fontFamily="monospace"
-            style={{ pointerEvents: "none" }}
-        >
-            {label}
-        </text>
-    );
-}
-
 export function TreeMap(props) {
     const { margin, svg_width, svg_height, tree, selectedCell, setSelectedCell } = props;
 
@@ -84,13 +64,10 @@ export function TreeMap(props) {
     const innerHeight = svg_height - margin.top - margin.bottom;
 
     // --- Q1.1: define a treemap using d3.treemap() ---
-    // paddingTop only at depth=1 (heart_disease groups) for its label strip.
-    // depth=2 (gender) gets no label strip — matches reference screenshot.
     const treemapLayout = d3
         .treemap()
         .size([innerWidth, innerHeight])
         .paddingOuter(2)
-        .paddingTop(d => (d.depth === 1 ? 18 : 0))
         .paddingInner(2);
 
     // Build d3 hierarchy — NO sort, keep original order from getTree
@@ -101,17 +78,19 @@ export function TreeMap(props) {
     treemapLayout(root);
 
     const leaves = root.leaves();
-    // Only top-level internal nodes (depth=1 → heart_disease groups)
-    const topInternals = root.descendants().filter(d => d.depth === 1);
 
     // --- Q1.1: define color map using schemeDark2 ---
     const colorScale = d3.scaleOrdinal(d3.schemeDark2);
 
-    // Color by the FIRST-level attribute (heart_disease) — matches reference screenshot
-    // Green for heart_disease=0, orange for heart_disease=1
+    // Color by the SECOND-level attribute (e.g. gender) — matches professor's screenshot
     function getColor(node) {
         let cur = node;
-        while (cur.depth > 1) cur = cur.parent;
+        // Walk to depth=2 if possible (second-level group)
+        while (cur.depth > 2) cur = cur.parent;
+        // If tree only has one level of grouping, fall back to depth 1
+        if (cur.depth < 2) {
+            while (cur.depth > 1) cur = cur.parent;
+        }
         return colorScale(cur.data.name);
     }
 
@@ -122,29 +101,7 @@ export function TreeMap(props) {
             style={{ width: "100%", height: "100%" }}
         >
             <g transform={`translate(${margin.left},${margin.top})`}>
-                {/* Top-level group rectangles (heart_disease: 0 / 1) drawn first */}
-                {topInternals.map((node, i) => {
-                    const x = node.x0;
-                    const y = node.y0;
-                    const w = node.x1 - node.x0;
-                    const h = node.y1 - node.y0;
-                    return (
-                        <g key={`top-${i}`}>
-                            <rect
-                                x={x}
-                                y={y}
-                                width={w}
-                                height={h}
-                                fill={getColor(node)}
-                                stroke="white"
-                                strokeWidth={1.5}
-                            />
-                            <TopInternalLabel node={node} x={x} y={y} width={w} />
-                        </g>
-                    );
-                })}
-
-                {/* --- Q1.1: plot the leaf rectangles --- */}
+                {/* --- Q1.1: plot the rectangles --- */}
                 {leaves.map((leaf, i) => {
                     const x = leaf.x0;
                     const y = leaf.y0;
