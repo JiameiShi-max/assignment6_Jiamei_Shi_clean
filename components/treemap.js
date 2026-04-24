@@ -67,8 +67,8 @@ export function TreeMap(props) {
     const treemapLayout = d3
         .treemap()
         .size([innerWidth, innerHeight])
-        .paddingOuter(2)
-        .paddingInner(2);
+        .paddingOuter(1)
+        .paddingInner(1);
 
     // Build d3 hierarchy — NO sort, keep original order from getTree
     const root = d3
