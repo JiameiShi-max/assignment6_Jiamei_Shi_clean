@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chart 2 - Stroke risk rises sharply with age</title>
+  <style>
+    body {
+      margin: 0;
+      background: #f6f7fb;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #1f2937;
+    }
+
+    .wrapper {
+      width: 980px;
+      margin: 36px auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      padding: 36px 40px 32px 40px;
+    }
+
+    .eyebrow {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin: 0 0 10px 0;
+      font-size: 34px;
+      line-height: 1.2;
+      color: #111827;
+    }
+
+    .subtitle {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.6;
+      color: #4b5563;
+      max-width: 820px;
+    }
+
+    .chart-section {
+      margin-top: 34px;
+      display: flex;
+      gap: 28px;
+      align-items: flex-start;
+    }
+
+    .chart-box {
+      flex: 1;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 22px 22px 18px 22px;
+    }
+
+    .chart-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 18px;
+      color: #111827;
+    }
+
+    .svg-wrap {
+      width: 100%;
+      overflow: visible;
+    }
+
+    .side-note {
+      width: 250px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .note-card {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 18px 18px 16px 18px;
+    }
+
+    .note-kicker {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin-bottom: 10px;
+    }
+
+    .note-big {
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1;
+      color: #b91c1c;
+      margin-bottom: 10px;
+    }
+
+    .note-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #4b5563;
+    }
+
+    .annotation {
+      background: #fef2f2;
+      border-left: 4px solid #dc2626;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 15px;
+      line-height: 1.6;
+      color: #7f1d1d;
+    }
+
+    .footer-note {
+      margin-top: 22px;
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+
+    .source-line {
+      margin-top: 6px;
+      font-size: 13px;
+      color: #9ca3af;
+      line-height: 1.5;
+    }
+
+    .axis-label {
+      font-size: 13px;
+      fill: #6b7280;
+    }
+
+    .tick-text {
+      font-size: 12px;
+      fill: #6b7280;
+    }
+
+    .bar-label {
+      font-size: 13px;
+      font-weight: 700;
+      fill: #111827;
+    }
+
+    .group-label {
+      font-size: 13px;
+      fill: #374151;
+      text-anchor: middle;
+    }
+
+    .highlight-text {
+      font-size: 13px;
+      font-weight: 700;
+      fill: #374151;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="card">
+      <div class="eyebrow">Act 2 · Evidence</div>
+      <h1>Stroke risk rises sharply with age</h1>
+      <p class="subtitle">
+        Once the dataset is broken into age groups, a much clearer pattern appears: stroke is uncommon among younger patients, but becomes far more common in later life.
+      </p>
+
+      <div class="chart-section">
+        <div class="chart-box">
+          <div class="chart-title">Stroke rate by age group</div>
+
+          <div class="svg-wrap">
+            <svg width="640" height="380" viewBox="0 0 640 380" xmlns="http://www.w3.org/2000/svg">
+              <!-- horizontal grid lines -->
+              <line x1="70" y1="300" x2="620" y2="300" stroke="#d1d5db" stroke-width="1"/>
+              <line x1="70" y1="250" x2="620" y2="250" stroke="#e5e7eb" stroke-width="1"/>
+              <line x1="70" y1="200" x2="620" y2="200" stroke="#e5e7eb" stroke-width="1"/>
+              <line x1="70" y1="150" x2="620" y2="150" stroke="#e5e7eb" stroke-width="1"/>
+              <line x1="70" y1="100" x2="620" y2="100" stroke="#e5e7eb" stroke-width="1"/>
+              <line x1="70" y1="50" x2="620" y2="50" stroke="#e5e7eb" stroke-width="1"/>
+
+              <!-- y axis -->
+              <line x1="70" y1="40" x2="70" y2="300" stroke="#9ca3af" stroke-width="1.2"/>
+              <!-- x axis -->
+              <line x1="70" y1="300" x2="620" y2="300" stroke="#9ca3af" stroke-width="1.2"/>
+
+              <!-- y ticks -->
+              <text x="58" y="304" class="tick-text" text-anchor="end">0%</text>
+              <text x="58" y="254" class="tick-text" text-anchor="end">5%</text>
+              <text x="58" y="204" class="tick-text" text-anchor="end">10%</text>
+              <text x="58" y="154" class="tick-text" text-anchor="end">15%</text>
+              <text x="58" y="104" class="tick-text" text-anchor="end">20%</text>
+              <text x="58" y="54" class="tick-text" text-anchor="end">25%</text>
+
+              <!-- Bars -->
+              <rect x="95"  y="297.8" width="70" height="2.2" rx="5" fill="#cbd5e1"/>
+              <rect x="200" y="294.8" width="70" height="5.2" rx="5" fill="#cbd5e1"/>
+              <rect x="305" y="260.1" width="70" height="39.9" rx="5" fill="#93c5fd"/>
+              <rect x="410" y="176.8" width="70" height="123.2" rx="5" fill="#f59e0b"/>
+              <rect x="515" y="76.3"  width="70" height="223.7" rx="5" fill="#dc2626"/>
+
+              <!-- bar value labels -->
+              <text x="130" y="286" class="bar-label" text-anchor="middle">0.2%</text>
+              <text x="235" y="283" class="bar-label" text-anchor="middle">0.5%</text>
+              <text x="340" y="248" class="bar-label" text-anchor="middle">3.8%</text>
+              <text x="445" y="164" class="bar-label" text-anchor="middle">11.9%</text>
+              <text x="550" y="54" class="bar-label" text-anchor="middle">21.5%</text>
+
+              <!-- x labels -->
+              <text x="130" y="325" class="group-label">0–19</text>
+              <text x="235" y="325" class="group-label">20–39</text>
+              <text x="340" y="325" class="group-label">40–59</text>
+              <text x="445" y="325" class="group-label">60–79</text>
+              <text x="550" y="325" class="group-label">80–99</text>
+
+              <!-- axis labels -->
+              <text x="15" y="170" class="axis-label" transform="rotate(-90 15,170)">Stroke rate</text>
+              <text x="345" y="360" class="axis-label" text-anchor="middle">Age group</text>
+
+              <!-- annotation line and text -->
+              <line x1="545" y1="105" x2="595" y2="105" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="4 3"/>
+              <text x="455" y="98" class="highlight-text">Risk rises sharply</text>
+              <text x="455" y="116" class="highlight-text">after age 60</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="side-note">
+          <div class="note-card">
+            <div class="note-kicker">Key pattern</div>
+            <div class="note-big">21.5%</div>
+            <div class="note-text">
+              In the 80–99 age group, more than one in five patients in this dataset had stroke.
+            </div>
+          </div>
+
+          <div class="annotation">
+            Age is the clearest broad pattern in the dataset: stroke is very rare among younger groups, but much more common in older groups.
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-note">
+        Intended audience: general public / public health storytelling
+      </div>
+      <div class="source-line">
+        Age-group stroke rates used in this sketch: 0–19 = 0.21%, 20–39 = 0.50%, 40–59 = 3.84%, 60–79 = 11.85%, 80–99 = 21.51%.
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chart 3 - Cardiovascular conditions further increase risk</title>
+  <style>
+    body {
+      margin: 0;
+      background: #f6f7fb;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #1f2937;
+    }
+
+    .wrapper {
+      width: 980px;
+      margin: 36px auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      padding: 36px 40px 32px 40px;
+    }
+
+    .eyebrow {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin: 0 0 10px 0;
+      font-size: 34px;
+      line-height: 1.2;
+      color: #111827;
+    }
+
+    .subtitle {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.6;
+      color: #4b5563;
+      max-width: 830px;
+    }
+
+    .chart-section {
+      margin-top: 34px;
+      display: flex;
+      gap: 28px;
+      align-items: flex-start;
+    }
+
+    .chart-box {
+      flex: 1;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 22px 22px 18px 22px;
+    }
+
+    .chart-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 18px;
+      color: #111827;
+    }
+
+    .side-note {
+      width: 250px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .note-card {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 18px 18px 16px 18px;
+    }
+
+    .note-kicker {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin-bottom: 10px;
+    }
+
+    .note-big {
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1;
+      color: #b91c1c;
+      margin-bottom: 10px;
+    }
+
+    .note-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #4b5563;
+    }
+
+    .annotation {
+      background: #fef2f2;
+      border-left: 4px solid #dc2626;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 15px;
+      line-height: 1.6;
+      color: #7f1d1d;
+    }
+
+    .footer-note {
+      margin-top: 22px;
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+
+    .source-line {
+      margin-top: 6px;
+      font-size: 13px;
+      color: #9ca3af;
+      line-height: 1.5;
+    }
+
+    .axis-label {
+      font-size: 13px;
+      fill: #6b7280;
+    }
+
+    .tick-text {
+      font-size: 12px;
+      fill: #6b7280;
+    }
+
+    .panel-title {
+      font-size: 16px;
+      font-weight: 700;
+      fill: #111827;
+    }
+
+    .row-label {
+      font-size: 13px;
+      fill: #374151;
+    }
+
+    .value-label {
+      font-size: 13px;
+      font-weight: 700;
+      fill: #111827;
+    }
+
+    .legend-text {
+      font-size: 13px;
+      fill: #4b5563;
+    }
+
+    .small-note {
+      font-size: 11px;
+      fill: #6b7280;
+    }
+
+    .highlight-text {
+      font-size: 13px;
+      font-weight: 700;
+      fill: #374151;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="card">
+      <div class="eyebrow">Act 2 · Evidence</div>
+      <h1>Cardiovascular conditions further increase risk</h1>
+      <p class="subtitle">
+        Age is the broadest pattern in the dataset, but it is not the whole story. Patients with hypertension or heart disease show substantially higher stroke rates than those without these conditions.
+      </p>
+
+      <div class="chart-section">
+        <div class="chart-box">
+          <div class="chart-title">Stroke rate by health condition</div>
+
+          <svg width="640" height="390" viewBox="0 0 640 390" xmlns="http://www.w3.org/2000/svg">
+            <!-- titles -->
+            <text x="120" y="35" class="panel-title">Hypertension</text>
+            <text x="390" y="35" class="panel-title">Heart disease</text>
+
+            <!-- legends -->
+            <circle cx="90" cy="62" r="6" fill="#94a3b8"/>
+            <text x="104" y="67" class="legend-text">No</text>
+            <circle cx="150" cy="62" r="6" fill="#dc2626"/>
+            <text x="164" y="67" class="legend-text">Yes</text>
+
+            <circle cx="360" cy="62" r="6" fill="#94a3b8"/>
+            <text x="374" y="67" class="legend-text">No</text>
+            <circle cx="420" cy="62" r="6" fill="#dc2626"/>
+            <text x="434" y="67" class="legend-text">Yes</text>
+
+            <!-- left panel axis -->
+            <line x1="70" y1="250" x2="260" y2="250" stroke="#9ca3af" stroke-width="1.2"/>
+            <line x1="70" y1="200" x2="260" y2="200" stroke="#e5e7eb" stroke-width="1"/>
+            <line x1="70" y1="150" x2="260" y2="150" stroke="#e5e7eb" stroke-width="1"/>
+            <line x1="70" y1="100" x2="260" y2="100" stroke="#e5e7eb" stroke-width="1"/>
+
+            <!-- right panel axis -->
+            <line x1="340" y1="250" x2="530" y2="250" stroke="#9ca3af" stroke-width="1.2"/>
+            <line x1="340" y1="200" x2="530" y2="200" stroke="#e5e7eb" stroke-width="1"/>
+            <line x1="340" y1="150" x2="530" y2="150" stroke="#e5e7eb" stroke-width="1"/>
+            <line x1="340" y1="100" x2="530" y2="100" stroke="#e5e7eb" stroke-width="1"/>
+
+            <!-- tick labels left -->
+            <text x="62" y="254" class="tick-text" text-anchor="end">0%</text>
+            <text x="62" y="204" class="tick-text" text-anchor="end">5%</text>
+            <text x="62" y="154" class="tick-text" text-anchor="end">10%</text>
+            <text x="62" y="104" class="tick-text" text-anchor="end">15%</text>
+
+            <!-- tick labels right -->
+            <text x="332" y="254" class="tick-text" text-anchor="end">0%</text>
+            <text x="332" y="204" class="tick-text" text-anchor="end">5%</text>
+            <text x="332" y="154" class="tick-text" text-anchor="end">10%</text>
+            <text x="332" y="104" class="tick-text" text-anchor="end">15%</text>
+
+            <!-- left panel subtitle -->
+            <text x="165" y="280" class="axis-label" text-anchor="middle">Stroke rate</text>
+            <!-- right panel subtitle -->
+            <text x="435" y="280" class="axis-label" text-anchor="middle">Stroke rate</text>
+
+            <!-- hypertension paired dot plot -->
+            <!-- no = 3.97 -> y ~ 216.9 -->
+            <!-- yes = 13.25 -> y ~ 139.6 -->
+            <line x1="165" y1="216.9" x2="165" y2="139.6" stroke="#cbd5e1" stroke-width="3"/>
+            <circle cx="165" cy="216.9" r="10" fill="#94a3b8"/>
+            <circle cx="165" cy="139.6" r="10" fill="#dc2626"/>
+            <text x="128" y="221" class="row-label" text-anchor="end">No</text>
+            <text x="128" y="144" class="row-label" text-anchor="end">Yes</text>
+            <text x="188" y="221" class="value-label">4.0%</text>
+            <text x="188" y="144" class="value-label">13.3%</text>
+
+            <!-- heart disease paired dot plot -->
+            <!-- no = 4.18 -> y ~ 215.2 -->
+            <!-- yes = 17.03 -> y ~ 108.1 -->
+            <line x1="435" y1="215.2" x2="435" y2="108.1" stroke="#cbd5e1" stroke-width="3"/>
+            <circle cx="435" cy="215.2" r="10" fill="#94a3b8"/>
+            <circle cx="435" cy="108.1" r="10" fill="#dc2626"/>
+            <text x="398" y="219" class="row-label" text-anchor="end">No</text>
+            <text x="398" y="112" class="row-label" text-anchor="end">Yes</text>
+            <text x="458" y="219" class="value-label">4.2%</text>
+            <text x="458" y="112" class="value-label">17.0%</text>
+
+            <!-- bottom notes -->
+            <text x="90" y="320" class="small-note">Patients with hypertension show a visibly higher stroke rate.</text>
+            <text x="390" y="320" class="small-note">The gap is even larger for patients with heart disease.</text>
+
+            <!-- annotation lines and notes -->
+            <line x1="446" y1="118" x2="520" y2="118" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <text x="526" y="113" class="highlight-text">Largest gap</text>
+            <text x="526" y="131" class="highlight-text">appears here</text>
+          </svg>
+        </div>
+
+        <div class="side-note">
+          <div class="note-card">
+            <div class="note-kicker">Key pattern</div>
+            <div class="note-big">17.0%</div>
+            <div class="note-text">
+              Patients with heart disease had the highest stroke rate among the groups shown in this view.
+            </div>
+          </div>
+
+          <div class="annotation">
+            After age, the clearest additional pattern is that stroke is more common among patients who already have hypertension or heart disease.
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-note">
+        Intended audience: general public / public health storytelling
+      </div>
+      <div class="source-line">
+        Stroke rates used in this sketch: hypertension = no 3.97%, yes 13.25%; heart disease = no 4.18%, yes 17.03%.
+      </div>
+    </div>
+  </div>
+</body>
+</html>

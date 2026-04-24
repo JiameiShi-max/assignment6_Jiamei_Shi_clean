@@ -1,0 +1,114 @@
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.patches import Rectangle
+
+# -----------------------------
+# Sketch data (illustrative only)
+# -----------------------------
+labels = ["Age 60+", "Hypertension", "Heart disease", "High glucose", "Smoking", "Stroke"]
+
+data = np.array([
+    [0.00, 0.35, 0.30, 0.28, 0.18, 0.75],
+    [0.35, 0.00, 0.62, 0.30, 0.12, 0.68],
+    [0.30, 0.62, 0.00, 0.20, 0.10, 0.72],
+    [0.28, 0.30, 0.20, 0.00, 0.16, 0.50],
+    [0.18, 0.12, 0.10, 0.16, 0.00, 0.22],
+    [0.75, 0.68, 0.72, 0.50, 0.22, 0.00],
+])
+
+# -----------------------------
+# Figure
+# -----------------------------
+fig = plt.figure(figsize=(11, 7.5), dpi=180)
+fig.patch.set_facecolor("white")
+
+# Main title and subtitle
+fig.text(
+    0.06, 0.95,
+    "Q1.5 Alternative Overview Design: Heatmap / Matrix View",
+    fontsize=19, fontweight="bold", ha="left", va="top"
+)
+
+fig.text(
+    0.06, 0.905,
+    "Each cell represents the strength of the relationship between two attributes.\n"
+    "Darker color indicates stronger co-occurrence or stronger association.",
+    fontsize=11.5, ha="left", va="top", color="#444444"
+)
+
+# -----------------------------
+# Heatmap
+# -----------------------------
+ax = fig.add_axes([0.06, 0.14, 0.60, 0.68])
+im = ax.imshow(data, cmap="Blues", vmin=0, vmax=0.80)
+
+ax.set_xticks(range(len(labels)))
+ax.set_yticks(range(len(labels)))
+ax.set_xticklabels(labels, rotation=30, ha="right", fontsize=11)
+ax.set_yticklabels(labels, fontsize=11)
+
+ax.set_xlabel("Attribute", fontsize=12)
+ax.set_ylabel("Attribute", fontsize=12)
+
+# Cell labels
+for i in range(len(labels)):
+    for j in range(len(labels)):
+        if i == j:
+            txt = "—"
+            color = "#444444"
+        else:
+            txt = f"{int(round(data[i, j] * 100))}%"
+            color = "white" if data[i, j] >= 0.50 else "#222222"
+        ax.text(j, i, txt, ha="center", va="center", fontsize=10.5, color=color)
+
+# Clean border
+for spine in ax.spines.values():
+    spine.set_linewidth(1.2)
+    spine.set_color("#222222")
+
+# -----------------------------
+# Right-side explanation boxes
+# -----------------------------
+ax_info = fig.add_axes([0.72, 0.16, 0.24, 0.66])
+ax_info.axis("off")
+
+def draw_box(ax, y, h, title, body):
+    rect = Rectangle((0, y), 1, h, fill=False, linewidth=1.2, edgecolor="#333333")
+    ax.add_patch(rect)
+    ax.text(0.05, y + h - 0.06, title, fontsize=12.5, fontweight="bold", va="top")
+    ax.text(0.05, y + h - 0.14, body, fontsize=10.5, va="top", linespacing=1.4)
+
+draw_box(
+    ax_info, 0.66, 0.28,
+    "Why this is better\nthan node-link",
+    "• Easier to compare pairwise strength\n\n"
+    "• Fixed layout, so there is no edge crossing\n\n"
+    "• Can include more attributes clearly in one overview"
+)
+
+draw_box(
+    ax_info, 0.31, 0.27,
+    "Encoding",
+    "Rows / columns:\nattributes\n\n"
+    "Cell color:\nrelationship strength\n\n"
+    "Cell text:\nexample percentage / strength value"
+)
+
+draw_box(
+    ax_info, 0.08, 0.15,
+    "Sketch note",
+    "This is a design sketch.\nThe exact values are illustrative."
+)
+
+# -----------------------------
+# Optional footer
+# -----------------------------
+fig.text(
+    0.06, 0.05,
+    "Idea: use a matrix layout instead of a force-directed node-link diagram to provide a clearer overview of relationships.",
+    fontsize=10, color="#666666"
+)
+
+# Save
+plt.savefig("Q1_5_heatmap_sketch_clean.png", bbox_inches="tight")
+plt.show()
