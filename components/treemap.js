@@ -56,6 +56,25 @@ function BigLabel({ node, x, y, width, height }) {
     );
 }
 
+// Internal-node label strip — the small bar shown at the top of each group
+function InternalLabel({ node, x, y, width, height }) {
+    if (width < 20 || height < 14) return null;
+    const label = `${node.data.attr}: ${node.data.name}`;
+    const fontSize = 12;
+    return (
+        <text
+            x={x + 4}
+            y={y + fontSize + 3}
+            fontSize={fontSize}
+            fill="white"
+            fontFamily="monospace"
+            style={{ pointerEvents: "none" }}
+        >
+            {label}
+        </text>
+    );
+}
+
 export function TreeMap(props) {
     const { margin, svg_width, svg_height, tree, selectedCell, setSelectedCell } = props;
 
@@ -64,10 +83,12 @@ export function TreeMap(props) {
     const innerHeight = svg_height - margin.top - margin.bottom;
 
     // --- Q1.1: define a treemap using d3.treemap() ---
+    // paddingTop reserves a strip at the top of every internal node for its label
     const treemapLayout = d3
         .treemap()
         .size([innerWidth, innerHeight])
         .paddingOuter(2)
+        .paddingTop(20)
         .paddingInner(2);
 
     // Build d3 hierarchy — NO sort, keep original order from getTree
@@ -78,6 +99,8 @@ export function TreeMap(props) {
     treemapLayout(root);
 
     const leaves = root.leaves();
+    // Internal nodes (exclude root) — these get the small label strip
+    const internals = root.descendants().filter(d => d.depth > 0 && d.children);
 
     // --- Q1.1: define color map using schemeDark2 ---
     const colorScale = d3.scaleOrdinal(d3.schemeDark2);
@@ -101,6 +124,28 @@ export function TreeMap(props) {
             style={{ width: "100%", height: "100%" }}
         >
             <g transform={`translate(${margin.left},${margin.top})`}>
+                {/* Internal node rectangles (drawn first, so leaves sit on top) */}
+                {internals.map((node, i) => {
+                    const x = node.x0;
+                    const y = node.y0;
+                    const w = node.x1 - node.x0;
+                    const h = node.y1 - node.y0;
+                    return (
+                        <g key={`internal-${i}`}>
+                            <rect
+                                x={x}
+                                y={y}
+                                width={w}
+                                height={h}
+                                fill={getColor(node)}
+                                stroke="white"
+                                strokeWidth={1.5}
+                            />
+                            <InternalLabel node={node} x={x} y={y} width={w} height={20} />
+                        </g>
+                    );
+                })}
+
                 {/* --- Q1.1: plot the rectangles --- */}
                 {leaves.map((leaf, i) => {
                     const x = leaf.x0;
